@@ -1,0 +1,17 @@
+{
+  "name": "housing-toronto",
+  "version": "1.0.0",
+  "description": "An application to provide ease of access to available homeless shelters",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node server.js"
+  },
+  "author": "Terry Kim",
+  "license": "ISC",
+  "dependencies": {
+     "express": "^4.18.2",
+     "cors": "^2.8.5"
+  },
+  "keywords": []
+}
