@@ -29,7 +29,18 @@ const getPackage = () => {
 app.get("/api/shelters", async (req, res) => {
   try {
     const pkg = await getPackage(); 
-    res.json(pkg); 
+    const resourceUrl = pkg.resources.find(r => r.format === "JSON").url;
+
+https.get(resourceUrl, (resp) => {
+  let data = '';
+  resp.on('data', chunk => data += chunk);
+  resp.on('end', () => {
+    res.json(JSON.parse(data));
+  });
+}).on('error', err => {
+  console.error('Error retrieving resource data:', err);
+  res.status(500).json({ error: 'Failed to load shelter records.' });
+});
   } catch (err) {
     console.error("API error:", err);
     res.status(500).json({ error: "Failed to fetch shelter data." });
