@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toronto Housing App</title>
     <link rel="stylesheet" href="style.css" type ="text/css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <style>
+ 
+    #map {
+      height: 500px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    </style>
 
     </head>
 <body>
     <div>Welcome to the Toronto Housing Shelter App</div>
     <h1> Below you will find the information that you need!</h1>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <ul id="shelter-list"></ul>
     <script type="module" src="main.js"></script>
 </body>

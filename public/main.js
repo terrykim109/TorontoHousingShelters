@@ -1,5 +1,15 @@
 const apiUrl = "/api/shelters";
 
+document.addEventListener("DOMContentLoaded", () => {
+
+   // Adding a map using leaflet, set at Toronto coordinates
+  const map = L.map("map").setView([43.65107, -79.347015], 11); 
+ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 18,
+    attribution: '&copy; OpenStreetMap contributors',
+  }).addTo(map);
+});
+
 // Fetching data from the local server
 fetch(apiUrl)
   .then((response) => response.json())
