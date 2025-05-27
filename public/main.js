@@ -1,10 +1,25 @@
 const apiUrl = "/api/shelters";
 const shelterCoords = [];
 
-// Adding a map using leaflet, set at Toronto coordinates
-const map = L.map("map").setView([43.65107, -79.347015], 11);
+// help function to calculate distance between two coordinates
+function getDistance(lat1, lon1, lat2, lon2) {
+  const toRad = (val) => (val * Math.PI) / 180;
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+
+let map;
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Adding a map using leaflet, set at Toronto coordinates
+  map = L.map("map").setView([43.65107, -79.347015], 11);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 18,
     attribution: "&copy; OpenStreetMap contributors",
@@ -123,6 +138,7 @@ fetch(apiUrl)
 
     geocodeAndAddMarkers();
 
+    
     // Optional: log to verify
     console.log(`Found ${likelyAvailable.length} shelters likely available`);
   })
@@ -251,15 +267,3 @@ form.addEventListener("submit", async (e) => {
 //   }
 // });
 
-// help function to calculate distance between two coordinates
-function getDistance(lat1, lon1, lat2, lon2) {
-  const toRad = (val) => (val * Math.PI) / 180;
-  const R = 6371;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
