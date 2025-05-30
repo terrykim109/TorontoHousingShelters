@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const form = document.getElementById("postal-form");
 const submitBtn = form.querySelector("button");
-// form.querySelector("button").disabled = true;
 
 // Fetching data from the local server
 fetch(apiUrl)
@@ -129,18 +128,14 @@ fetch(apiUrl)
         } catch (error) {
           console.error("Geocoding failed for", address, error);
         }
-        // Respect Nominatim rate limit
+        // Due to rate limits
         await sleep(1000);
       }
-      // submitBtn.disabled = false;
       console.log("Geocoded shelters:", shelterCoords);
     };
 
     geocodeAndAddMarkers();
-
-    
-    // Optional: log to verify
-    console.log(`Found ${likelyAvailable.length} shelters likely available`);
+ 
   })
   .catch((error) => {
     console.error("Error fetching data:", error);
@@ -210,60 +205,4 @@ form.addEventListener("submit", async (e) => {
     alert("Something went wrong. Try again.");
   }
 });
-
-// Listen for user postal code input
-// document.getElementById("postal-form").addEventListener("submit", async (e) => {
-//   e.preventDefault();
-//   const postalCode = document.getElementById("postal").value.trim();
-//   if (!postalCode) return;
-
-//   try {
-//     // Geocode user postal code
-//     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-//       postalCode + ", Toronto, ON"
-//     )}`;
-//     const response = await fetch(url, {
-//       headers: { "User-Agent": "TorontoShelterApp/1.0" },
-//     });
-//     const data = await response.json();
-
-//     if (data.length === 0) {
-//       alert("Could not locate that postal code. Please try another.");
-//       return;
-//     }
-//     const userLat = parseFloat(data[0].lat);
-//     const userLon = parseFloat(data[0].lon);
-
-//     // Find nearest shelter from already geocoded shelterCoords
-//     let nearest = null;
-//     let minDist = Infinity;
-
-//     for (const shelter of shelterCoords) {
-//       const dist = getDistance(userLat, userLon, shelter.lat, shelter.lon);
-//       if (dist < minDist) {
-//         minDist = dist;
-//         nearest = shelter;
-//       }
-//     }
-
-//     if (nearest) {
-//       map.setView([nearest.lat, nearest.lon], 14);
-//       L.popup()
-//         .setLatLng([nearest.lat, nearest.lon])
-//         .setContent(
-//           `
-//           <b>${nearest["LOCATION_NAME"]}</b><br>
-//           ${nearest["LOCATION_ADDRESS"]}<br>
-//           Capacity: ${nearest["CAPACITY_ACTUAL_ROOM"]} | Occupied: ${nearest["OCCUPIED_ROOMS"]}
-//         `
-//         )
-//         .openOn(map);
-//     } else {
-//       alert("No available shelter found nearby.");
-//     }
-//   } catch (err) {
-//     console.error("Postal code lookup failed", err);
-//     alert("Something went wrong. Try again.");
-//   }
-// });
 
